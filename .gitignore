@@ -1,0 +1,19 @@
+# Terraform folder
+.terraform/
+
+# Terraform state files
+*.tfstate
+*.tfstate.*
+.terraform.tfstate.lock.info
+.terraform.tfstate.backup
+
+# Crash logs
+crash.log
+
+# Sensitive keys
+*.pem
+terra-ec2-key
+terra-ec2-key.pub
+
+# Optional
+.terraform.lock.hcl
