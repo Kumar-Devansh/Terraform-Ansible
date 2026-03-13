@@ -135,4 +135,4 @@ mv playbooks/ terraform-ansible/
 This setup helps in automating infrastructure provisioning using Terraform and Ansible. You can extend it further with more configurations and optimizations.
 
 ---
-**Maintainer:** [Shubham Londhe](https://github.com/LondheShubham153)
+**Maintainer:** [Shubham Londhe](https://github.com/Kumar-Devansh)
