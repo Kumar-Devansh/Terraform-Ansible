@@ -1,0 +1,12 @@
+# DEV SERVER
+
+[junoon-servers]
+server1 ansible_host=18.222.139.9
+server2 ansible_host=52.15.65.166
+
+server1 ansible_user=ubuntu
+server2 ansible_user=ubuntu #agar alag alag chal rha hota to yaha likhte like Red Hat ka ec2 .... but agar same hai to vars me bhi likh sakte hain.  
+
+[junoon-servers:vars]
+ansible_python_interpreter=/usr/bin/python3
+ansible_ssh_private_key_file=/home/ubuntu/keys/terra-ec2-key.pem
