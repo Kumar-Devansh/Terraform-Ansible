@@ -1,0 +1,54 @@
+-
+  name: Install Docker
+  hosts: junoon-servers
+  become: yes
+
+  tasks:
+    - name: Install Docker when OS is RedHat/CentOS
+      package:
+        name: docker
+        state: latest
+
+      when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat' or ansible_distribution == 'Amazon'
+
+    - name: Install Docker when OS is Ubuntu
+      package:
+        name: docker.io
+        state: latest
+
+      when: ansible_distribution == 'Ubuntu'
+
+    - name: Start Docker
+      systemd_service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Add ubuntu user to docker group
+      user:
+        name: ubuntu
+        groups: docker
+        append: yes
+
+    - name: Verify that the containers are running
+      command: docker ps
+
+    - name: Update and upgrade packages
+      apt:
+        update_cache: yes
+        upgrade: dist
+      when: ansible_distribution == 'Ubuntu'
+
+    - name: Reboot the server if needed
+      reboot:
+        msg: "Rebooting the server after applying updates"
+        connect_timeout: 5
+        reboot_timeout: 600
+        pre_reboot_delay: 0
+        post_reboot_delay: 30
+        
+    - name: adding existing user to docker group
+      user  :
+        name: '{{ user }}'
+        groups: docker
+        append: yes
