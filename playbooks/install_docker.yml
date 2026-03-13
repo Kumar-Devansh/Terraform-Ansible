@@ -1,0 +1,35 @@
+-
+  name: Install Docker
+  hosts: junoon-servers
+  become: yes
+
+  tasks:
+    - name: Install Docker when OS is RedHat/CentOS
+      package:
+        name: docker
+        state: latest
+
+      when: ansible_distribution == 'CentOS' or ansible_distribution == 'RedHat' or ansible_distribution == 'Amazon'
+
+    - name: Install Docker when OS is Ubuntu
+      package:
+        name: docker.io
+        state: latest
+
+      when: ansible_distribution == 'Ubuntu'
+
+    - name: Start Docker                                                                                            
+      systemd_service:                                                                                             
+        name: docker         
+        state: started
+
+    # - name: Add ubuntu user to docker group
+    #   user:
+    #     name: ubuntu
+    #     groups: docker
+    #     append: yes
+    - name: adding existing user to docker group
+      user  :
+        name: '{{ user }}'
+        groups: docker
+        append: yes

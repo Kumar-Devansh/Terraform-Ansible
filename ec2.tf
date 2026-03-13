@@ -1,9 +1,11 @@
 # key-pair for login
 
 resource "aws_key_pair" "my_key" {
-    key_name   = "terra-ec2-key"
+    key_name   = "${var.env}-terra-ec2-key"
     public_key = file("terra-ec2-key.pub")
-    
+    tags = {
+        Environment = var.env
+    }
 }
 
 # VPC & Security Group
@@ -13,7 +15,7 @@ data "aws_vpc" "default" {
 }
 
 resource "aws_security_group" "my_security_group" {
-  name = "automate-sg"
+  name = "${var.env}-automate-sg"
   description = "This will add a TF generated security group to the default VPC"
 #   vpc_id = module.vpc.vpc_id                                       # data.aws_vpc.default.id # Interpolation 
     vpc_id = data.aws_vpc.default.id
@@ -43,7 +45,8 @@ resource "aws_security_group" "my_security_group" {
     }
 
   tags = {
-    Name = "automate-sg"
+    Name = "${var.env}-automate-sg"
+    Environment = var.env
   }
 
 }
@@ -74,6 +77,7 @@ resource "aws_security_group" "my_security_group" {
 
         tags = {
             Name = each.key
+            Environment = var.env
         }
     }
 
